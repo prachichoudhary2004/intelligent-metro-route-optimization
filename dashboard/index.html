@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligent Metro Route Optimization System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Industry-Level Color Palette */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%);
+            --background: #F1F5F9; /* Enhanced depth */
+            --card: #FFFFFF;
+            --text-primary: #111827;
+            --text-secondary: #6B7280;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --info: #3B82F6;
+            --border: #E5E7EB;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.05);
+            --card-hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Clean Professional Layout */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+
+        /* Centered Container with Proper Margins */
+        .main-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Clean Header Design */
+        .main-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.15);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        .header-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .header-subtitle {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-left: 2rem;
+        }
+
+        .system-badge {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s ease;
+        }
+
+        .system-badge:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Clean Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 0.25rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .tab-button {
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .tab-button.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
+        }
+
+        .tab-button:hover:not(.active) {
+            background: #F3F4F6;
+            color: var(--text-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Professional Three-Column Layout */
+        .engineering-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr 320px;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        /* Clean Cards */
+        .modern-card {
+            background: var(--card);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modern-card:hover {
+            box-shadow: var(--card-hover-shadow);
+            transform: translateY(-3px);
+            border-color: #CBD5E1;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Clean Form Controls */
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            background: var(--card);
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            outline: none;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        /* Professional Buttons */
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            transform: none;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #F3F4F6;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #E5E7EB;
+            transform: translateY(-1px);
+        }
+
+        /* Route Statistics Display */
+        .route-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .route-stat {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .route-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4F46E5;
+            margin-bottom: 0.25rem;
+        }
+
+        .route-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Step-by-Step Route Display */
+        .route-steps {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .route-step {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .route-step:last-child {
+            border-bottom: none;
+        }
+
+        .step-station {
+            flex: 1;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .step-line {
+            background: #F3F4F6;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-left: 1rem;
+        }
+
+        .step-arrow {
+            color: var(--text-secondary);
+            margin: 0 1rem;
+            font-size: 1.2rem;
+        }
+
+        .step-interchange {
+            background: #FEF3C7;
+            border-color: #F59E0B;
+            color: #92400E;
+        }
+
+        /* System Metrics */
+        .metrics-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .metric-item:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        /* Algorithm Comparison Table */
+        .comparison-table {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .comparison-table table {
+            margin: 0;
+            width: 100%;
+        }
+
+        .comparison-table th {
+            background: var(--primary-gradient);
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 1rem;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ML Predictions */
+        .prediction-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .prediction-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .prediction-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+
+        .prediction-metric {
+            text-align: center;
+            padding: 0.5rem;
+            background: #F8FAFC;
+            border-radius: 6px;
+        }
+
+        .prediction-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #4F46E5;
+        }
+
+        .prediction-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Status Messages */
+        .status-message {
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .status-success {
+            background: #D1FAE5;
+            border: 1px solid #10B981;
+            color: #065F46;
+        }
+
+        .status-warning {
+            background: #FEF3C7;
+            border: 1px solid #F59E0B;
+            color: #92400E;
+        }
+
+        .status-error {
+            background: #FEE2E2;
+            border: 1px solid #EF4444;
+            color: #991B1B;
+        }
+
+        /* Loading State */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #F3F4F6;
+            border-top: 3px solid #4F46E5;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .engineering-grid {
+                grid-template-columns: 300px 1fr 280px;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem 0.5rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .header-right {
+                margin-left: 0;
+                justify-content: center;
+            }
+            
+            .engineering-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .route-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Detailed Route Steps */
+        .route-step-detailed {
+            background: #F8FAFC;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .route-step-detailed:hover {
+            background: #F1F5F9;
+            border-color: #CBD5E1;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-number {
+            background: var(--primary-gradient);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .step-station-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .step-details {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: 2.25rem;
+        }
+
+        .step-action {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .step-line-badge {
+            background: #E0E7FF;
+            color: #4338CA;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .step-travel-info {
+            margin-left: 2.25rem;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Enhanced ML Impact Display */
+        .ml-station-impact {
+            background: #FEF3C7;
+            border-left: 3px solid #F59E0B;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .ml-station-impact .station-name {
+            font-weight: 600;
+            color: #92400E;
+            margin-bottom: 0.25rem;
+        }
+
+        .ml-station-impact .impact-detail {
+            font-size: 0.8rem;
+            color: #78350F;
+        }
+
+        /* ML Decision Chain */
+        .ml-decision-chain {
+            background: #F0F9FF;
+            border-left: 3px solid #3B82F6;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .decision-feature {
+            font-weight: 600;
+            color: #1E3A8A;
+            margin-bottom: 0.25rem;
+        }
+
+        .decision-value {
+            color: #1E40AF;
+            margin-bottom: 0.25rem;
+        }
+
+        .decision-action {
+            color: #059669;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .decision-outcome {
+            color: #047857;
+            font-style: italic;
+        }
+        .system-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 1rem 0;
+        }
+
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-width: 60px;
+        }
+
+        .step-number {
+            background: var(--primary-gradient);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-text {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .flow-arrow {
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .system-flow {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Clean Professional Header -->
+        <header class="main-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1 class="header-title">Intelligent Metro Route Optimization System</h1>
+                    <p class="header-subtitle">Graph-based route optimization with ML-powered decision system</p>
+                </div>
+                <div class="header-right">
+                    <span class="system-badge">Dijkstra & A*</span>
+                    <span class="system-badge">ML Predictions</span>
+                    <span class="system-badge">Real-time Routing</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Clean Tab Navigation -->
+        <div class="tab-nav">
+            <button class="tab-button active" onclick="switchTab('route-optimization')">Route Optimization</button>
+            <button class="tab-button" onclick="switchTab('algorithm-comparison')">Algorithm Comparison</button>
+            <button class="tab-button" onclick="switchTab('ml-predictions')">ML Predictions</button>
+            <button class="tab-button" onclick="switchTab('performance')">Performance</button>
+        </div>
+
+        <!-- Tab 1: Route Optimization -->
+        <div id="route-optimization" class="tab-content active">
+            <div class="engineering-grid">
+                <!-- Left Panel: Route Configuration -->
+                <div class="config-panel">
+                    <div class="modern-card">
+                        <h3 class="card-title">Route Configuration</h3>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">City</label>
+                            <select id="citySelect" class="form-select">
+                                <option value="">Select City</option>
+                                <option value="delhi">Delhi NCR</option>
+                                <option value="bangalore">Bangalore</option>
+                                <option value="mumbai">Mumbai</option>
+                                <option value="kolkata">Kolkata</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Source Station</label>
+                            <select id="sourceStation" class="form-select">
+                                <option value="">Select Source</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Destination Station</label>
+                            <select id="destStation" class="form-select">
+                                <option value="">Select Destination</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Routing Mode</label>
+                            <select id="routingMode" class="form-select">
+                                <option value="fastest">Fastest Route</option>
+                                <option value="least_congested">Least Congested</option>
+                                <option value="balanced">Balanced</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Algorithm</label>
+                            <select id="algorithm" class="form-select">
+                                <option value="auto">Auto Select</option>
+                                <option value="dijkstra">Dijkstra</option>
+                                <option value="astar">A*</option>
+                                <option value="multi_objective">Multi-Objective</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Time of Day</label>
+                            <input type="range" id="timeSlider" class="form-range" min="0" max="23" value="12">
+                            <div class="text-center mt-2">
+                                <span id="timeDisplay" class="badge bg-primary">12:00</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="peakHoursMode">
+                                <label class="form-check-label" for="peakHoursMode">
+                                    Peak Hours Mode
+                                    <small class="text-muted d-block">Increases congestion (7-9 AM, 5-7 PM)</small>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button id="computeRoute" class="btn btn-primary w-100 mb-2">Find Route</button>
+                        <button id="clearRoute" class="btn btn-secondary w-100">Clear</button>
+                    </div>
+                </div>
+
+                <!-- Center Panel: Route Results -->
+                <div class="results-panel">
+                    <!-- Route Statistics -->
+                    <div class="route-stats" id="routeStats" style="display: none;">
+                        <div class="route-stat">
+                            <div class="route-stat-value" id="resultTime">-</div>
+                            <div class="route-stat-label">Time (min)</div>
+                        </div>
+                        <div class="route-stat">
+                            <div class="route-stat-value" id="resultDistance">-</div>
+                            <div class="route-stat-label">Distance (km)</div>
+                        </div>
+                        <div class="route-stat">
+                            <div class="route-stat-value" id="resultInterchanges">-</div>
+                            <div class="route-stat-label">Interchanges</div>
+                        </div>
+                        <div class="route-stat">
+                            <div class="route-stat-value" id="resultCost">-</div>
+                            <div class="route-stat-label">Cost (₹)</div>
+                        </div>
+                    </div>
+
+                    <!-- Step-by-Step Route Display -->
+                    <div class="route-steps" id="routeSteps" style="display: none;">
+                        <h4 class="card-title">Route Details</h4>
+                        <div id="routeStepsContent">
+                            <!-- Route steps will be populated here -->
+                        </div>
+                    </div>
+
+                    <!-- Status Messages -->
+                    <div id="statusMessages">
+                        <!-- Status messages will appear here -->
+                    </div>
+
+                    <!-- Metro Network Display -->
+                    <div class="modern-card">
+                        <h3 class="card-title" id="networkTitle">Metro Network</h3>
+                        <div id="stationList" class="station-list">
+                            <p class="text-muted">Select a city to view stations</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel: System Metrics -->
+                <div class="metrics-panel">
+                    <div class="modern-card" id="whatIfCard" style="display: none;">
+                        <h3 class="card-title">What-If Simulation</h3>
+                        <div class="mb-3">
+                            <label class="form-label">Congestion Scenario</label>
+                            <select id="congestionScenario" class="form-select">
+                                <option value="current">Current Conditions</option>
+                                <option value="low">Low Congestion (-30%)</option>
+                                <option value="high">High Congestion (+30%)</option>
+                                <option value="severe">Severe Congestion (+50%)</option>
+                            </select>
+                        </div>
+                        <button id="runSimulation" class="btn btn-primary w-100 mb-2">Run Simulation</button>
+                        <div id="simulationResults" class="simulation-results">
+                            <p class="text-muted text-center">Select a scenario and run simulation</p>
+                        </div>
+                    </div>
+                    
+                    <div class="modern-card" id="algorithmSelectionCard" style="display: none;">
+                        <h3 class="card-title">Algorithm Selection</h3>
+                        <div id="algorithmSelectionContent"></div>
+                    </div>
+                    
+                    <div class="modern-card">
+                        <h3 class="card-title">System Metrics</h3>
+                        <ul class="metrics-list">
+                            <li class="metric-item">
+                                <span class="metric-label">Execution Time</span>
+                                <span class="metric-value" id="execTime">-</span>
+                            </li>
+                            <li class="metric-item">
+                                <span class="metric-label">Nodes Explored</span>
+                                <span class="metric-value" id="nodesExplored">-</span>
+                            </li>
+                            <li class="metric-item">
+                                <span class="metric-label">Graph Size</span>
+                                <span class="metric-value" id="graphSize">-</span>
+                            </li>
+                            <li class="metric-item">
+                                <span class="metric-label">Cache Hit Rate</span>
+                                <span class="metric-value" id="cacheHitRate">-</span>
+                            </li>
+                            <li class="metric-item">
+                                <span class="metric-label">Algorithm Used</span>
+                                <span class="metric-value" id="algorithmUsed">-</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="modern-card" id="explanationCard" style="display: none;">
+                        <h3 class="card-title">Route Analysis</h3>
+                        <div id="routeExplanation">
+                            <!-- Explanation will be populated here -->
+                        </div>
+                    </div>
+
+                    <div class="modern-card" id="mlImpactCard" style="display: none;">
+                        <h3 class="card-title">ML Impact</h3>
+                        <div id="mlImpact">
+                            <!-- ML impact will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Algorithm Comparison -->
+        <div id="algorithm-comparison" class="tab-content">
+            <div class="modern-card">
+                <h3 class="card-title">Algorithm Performance Comparison</h3>
+                <div class="comparison-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Algorithm</th>
+                                <th>Execution Time (ms)</th>
+                                <th>Nodes Explored</th>
+                                <th>Path Cost</th>
+                                <th>Memory Usage (MB)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Dijkstra</strong></td>
+                                <td id="dijkstraTime">-</td>
+                                <td id="dijkstraNodes">-</td>
+                                <td id="dijkstraCost">-</td>
+                                <td id="dijkstraMemory">-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>A*</strong></td>
+                                <td id="astarTime">-</td>
+                                <td id="astarNodes">-</td>
+                                <td id="astarCost">-</td>
+                                <td id="astarMemory">-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Multi-Objective</strong></td>
+                                <td id="multiTime">-</td>
+                                <td id="multiNodes">-</td>
+                                <td id="multiCost">-</td>
+                                <td id="multiMemory">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-4">
+                    <h4 class="card-title">Recommended Algorithm</h4>
+                    <div id="algorithmRecommendation" class="status-message status-warning">
+                        Select source and destination stations to get algorithm recommendation
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button id="runComparison" class="btn btn-primary">Run Comparison</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: ML Predictions -->
+        <div id="ml-predictions" class="tab-content">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="modern-card">
+                        <h3 class="card-title">Overall Predictions</h3>
+                        <div class="prediction-metrics">
+                            <div class="prediction-metric">
+                                <div class="prediction-value" id="overallCongestion">-</div>
+                                <div class="prediction-label">Congestion Score</div>
+                            </div>
+                            <div class="prediction-metric">
+                                <div class="prediction-value" id="overallDelayRisk">-</div>
+                                <div class="prediction-label">Delay Risk</div>
+                            </div>
+                            <div class="prediction-metric">
+                                <div class="prediction-value" id="overallDemand">-</div>
+                                <div class="prediction-label">Demand Score</div>
+                            </div>
+                            <div class="prediction-metric">
+                                <div class="prediction-value" id="predictionConfidence">-</div>
+                                <div class="prediction-label">Confidence</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="modern-card">
+                        <h3 class="card-title">ML Model Information</h3>
+                        <div id="mlFeatures">
+                            <p class="text-muted">Select a city to load ML predictions</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="modern-card">
+                        <h3 class="card-title">Station-Level Predictions</h3>
+                        <div id="stationPredictions">
+                            <!-- Station predictions will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 4: Performance -->
+        <div id="performance" class="tab-content">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="modern-card">
+                        <h3 class="card-title">System Performance</h3>
+                        <ul class="metrics-list">
+                            <li class="metric-item">
+                                <span class="metric-label">Cache Hit Rate</span>
+                                <span class="metric-value" id="perfCacheHitRate">-</span>
+                            </li>
+                            <li class="metric-item">
+                                <span class="metric-label">Total Requests</span>
+                                <span class="metric-value" id="totalRequests">-</span>
+                            </li>
+                            <li class="metric-item">
+                                <span class="metric-label">Avg Response Time</span>
+                                <span class="metric-value" id="avgResponseTime">-</span>
+                            </li>
+                            <li class="metric-item">
+                                <span class="metric-label">Avg Time (No Cache)</span>
+                                <span class="metric-value" id="avgTimeNoCache">-</span>
+                            </li>
+                            <li class="metric-item">
+                                <span class="metric-label">Cache Performance</span>
+                                <span class="metric-value" id="cachePerformance">-</span>
+                            </li>
+                            <li class="metric-item">
+                                <span class="metric-label">Last Execution Time</span>
+                                <span class="metric-value" id="lastExecutionTime">-</span>
+                            </li>
+                            <li class="metric-item">
+                                <span class="metric-label">Cache Efficiency</span>
+                                <span class="metric-value" id="cacheEfficiency">-</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="modern-card">
+                        <h3 class="card-title">System Design Flow</h3>
+                        <div class="system-flow">
+                            <div class="flow-step">
+                                <span class="step-number">1</span>
+                                <span class="step-text">User Input</span>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">
+                                <span class="step-number">2</span>
+                                <span class="step-text">Java API</span>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">
+                                <span class="step-number">3</span>
+                                <span class="step-text">ML Flask Service</span>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">
+                                <span class="step-number">4</span>
+                                <span class="step-text">Graph Engine</span>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">
+                                <span class="step-number">5</span>
+                                <span class="step-text">Cache</span>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">
+                                <span class="step-number">6</span>
+                                <span class="step-text">Response</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <h6>System Status</h6>
+                            <ul class="metrics-list">
+                                <li class="metric-item">
+                                    <span class="metric-label">Java API</span>
+                                    <span class="metric-value" style="color: var(--success);">● Running</span>
+                                </li>
+                                <li class="metric-item">
+                                    <span class="metric-label">ML Service</span>
+                                    <span class="metric-value" style="color: var(--success);">● Running</span>
+                                </li>
+                                <li class="metric-item">
+                                    <span class="metric-label">Cache System</span>
+                                    <span class="metric-value" style="color: var(--success);">● Running</span>
+                                </li>
+                                <li class="metric-item">
+                                    <span class="metric-label">ML Calls Made</span>
+                                    <span class="metric-value" id="mlCallsMade">0</span>
+                                </li>
+                                <li class="metric-item">
+                                    <span class="metric-label">Requests Handled</span>
+                                    <span class="metric-value" id="requestsHandled">0</span>
+                                </li>
+                                <li class="metric-item">
+                                    <span class="metric-label">Cache Hit Ratio</span>
+                                    <span class="metric-value" id="systemCacheHitRatio">-</span>
+                                </li>
+                                <li class="metric-item">
+                                    <span class="metric-label">ML Calls Saved (Cache)</span>
+                                    <span class="metric-value" id="mlCallsSaved">0</span>
+                                </li>
+                                <li class="metric-item">
+                                    <span class="metric-label">Last Updated</span>
+                                    <span class="metric-value" id="lastUpdated">-</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+        <div class="mt-3">Processing...</div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+{
+  "metadata": {
+    "city": "Mumbai",
+    "country": "India",
+    "total_stations": 20,
+    "total_lines": 3,
+    "center_lat": 19.0760,
+    "center_lon": 72.8777
+  },
+  "stations": [
+    {"id": "VAG", "name": "Versova", "lat": 19.1345, "lon": 72.8215, "line": "Blue"},
+    {"id": "DN", "name": "Dahisar", "lat": 19.4665, "lon": 72.8625, "line": "Blue"},
+    {"id": "GKB", "name": "Ghatkopar", "lat": 19.0835, "lon": 72.9055, "line": "Blue"},
+    {"id": "VRL", "name": "Vikhroli", "lat": 19.1155, "lon": 72.9365, "line": "Blue"},
+    {"id": "BND", "name": "Bandra", "lat": 19.0595, "lon": 72.8295, "line": "Blue"},
+    {"id": "CSMT", "name": "CSMT", "lat": 18.9405, "lon": 72.8355, "line": "Yellow"},
+    {"id": "CST", "name": "Chhatrapati Shivaji Terminus", "lat": 18.9405, "lon": 72.8355, "line": "Yellow"},
+    {"id": "DAD", "name": "Dadar", "lat": 19.0195, "lon": 72.8445, "line": "Yellow"},
+    {"id": "ANDH", "name": "Andheri", "lat": 19.1195, "lon": 72.8465, "line": "Yellow"},
+    {"id": "BOR", "name": "Borivali", "lat": 19.2295, "lon": 72.8565, "line": "Yellow"},
+    {"id": "VIR", "name": "Virar", "lat": 19.4695, "lon": 72.8465, "line": "Yellow"},
+    {"id": "MUM", "name": "Mumbai Central", "lat": 19.0095, "lon": 72.8265, "line": "Green"},
+    {"id": "WRL", "name": "Worli", "lat": 19.0095, "lon": 72.8165, "line": "Green"},
+    {"id": "PLG", "name": "Prabhadevi", "lat": 19.0195, "lon": 72.8265, "line": "Green"},
+    {"id": "SIO", "name": "Sion", "lat": 19.0395, "lon": 72.8565, "line": "Green"},
+    {"id": "KRL", "name": "Kurla", "lat": 19.0595, "lon": 72.8765, "line": "Green"},
+    {"id": "GTV", "name": "Ghatkopar West", "lat": 19.0835, "lon": 72.9055, "line": "Green"},
+    {"id": "KDM", "name": "Kandivali", "lat": 19.2095, "lon": 72.8665, "line": "Green"},
+    {"id": "MAL", "name": "Malad", "lat": 19.1795, "lon": 72.8465, "line": "Green"},
+    {"id": "GTA", "name": "Goregaon", "lat": 19.1695, "lon": 72.8565, "line": "Green"}
+  ],
+  "edges": [
+    {"from": "VAG", "to": "GKB", "distance": 12.5, "time": 18, "line": "Blue"},
+    {"from": "GKB", "to": "VRL", "distance": 8.0, "time": 12, "line": "Blue"},
+    {"from": "VRL", "to": "BND", "distance": 15.5, "time": 22, "line": "Blue"},
+    {"from": "BND", "to": "DN", "distance": 25.0, "time": 35, "line": "Blue"},
+    {"from": "CSMT", "to": "DAD", "distance": 8.0, "time": 12, "line": "Yellow"},
+    {"from": "DAD", "to": "ANDH", "distance": 11.5, "time": 16, "line": "Yellow"},
+    {"from": "ANDH", "to": "BOR", "distance": 12.0, "time": 18, "line": "Yellow"},
+    {"from": "BOR", "to": "VIR", "distance": 25.5, "time": 38, "line": "Yellow"},
+    {"from": "MUM", "to": "WRL", "distance": 3.5, "time": 6, "line": "Green"},
+    {"from": "WRL", "to": "PLG", "distance": 2.0, "time": 4, "line": "Green"},
+    {"from": "PLG", "to": "SIO", "distance": 8.5, "time": 12, "line": "Green"},
+    {"from": "SIO", "to": "KRL", "distance": 6.0, "time": 8, "line": "Green"},
+    {"from": "KRL", "to": "GTV", "distance": 4.5, "time": 6, "line": "Green"},
+    {"from": "GTV", "to": "KDM", "distance": 13.5, "time": 20, "line": "Green"},
+    {"from": "KDM", "to": "MAL", "distance": 4.5, "time": 6, "line": "Green"},
+    {"from": "MAL", "to": "GTA", "distance": 3.5, "time": 5, "line": "Green"},
+    {"from": "CSMT", "to": "MUM", "distance": 5.0, "time": 8, "line": "Yellow"},
+    {"from": "DAD", "to": "MUM", "distance": 2.5, "time": 4, "line": "Yellow"},
+    {"from": "GKB", "to": "GTV", "distance": 1.5, "time": 3, "line": "Blue"},
+    {"from": "BND", "to": "ANDH", "distance": 8.0, "time": 12, "line": "Blue"},
+    {"from": "PLG", "to": "DAD", "distance": 4.5, "time": 6, "line": "Green"}
+  ],
+  "lines": [
+    {"id": "Blue", "name": "Metro Line 1", "color": "#0066CC"},
+    {"id": "Yellow", "name": "Western Line", "color": "#FFCC00"},
+    {"id": "Green", "name": "Harbour Line", "color": "#009900"}
+  ],
+  "interchanges": [
+    {"station": "Dadar", "lines": ["Yellow", "Green"]},
+    {"station": "Ghatkopar", "lines": ["Blue", "Green"]},
+    {"station": "Andheri", "lines": ["Blue", "Yellow"]},
+    {"station": "CSMT", "lines": ["Yellow", "Green"]}
+  ]
+}
