@@ -570,6 +570,140 @@ flowchart LR
 
 ---
 
+## 🏗️ System Architecture & Workflow
+
+### 📋 System Architecture Diagram
+
+```mermaid
+graph TB
+    subgraph "Frontend Layer"
+        A[Dashboard UI]
+        A --> B[Interactive Maps]
+        A --> C[Route Comparison]
+        A --> D[Performance Metrics]
+        A --> E[Real-time Updates]
+    end
+    
+    subgraph "API Gateway Layer"
+        F[Java API Server<br/>Port 8081]
+        F --> G[Route Handler]
+        F --> H[City Loader]
+        F --> I[Health Monitor]
+        F --> J[ML Integration Client]
+        F --> K[CORS Manager]
+        F --> L[Request Logger]
+    end
+    
+    subgraph "ML Service Layer"
+        M[Python Flask<br/>Port 5000]
+        M --> N[Congestion Predictor]
+        M --> O[Delay Risk Analyzer]
+        M --> P[Batch Processor]
+        M --> Q[Model Trainer]
+        M --> R[Data Preprocessor]
+        M --> S[Cache Manager]
+    end
+    
+    subgraph "Data Layer"
+        T[JSON Data Store]
+        T --> U[Metro Networks]
+        T --> V[City Configurations]
+        T --> W[Historical Data]
+    end
+    
+    subgraph "Infrastructure Layer"
+        X[Load Balancer]
+        X --> Y[API Gateway Cluster]
+        X --> Z[ML Service Cluster]
+        X --> AA[Database Cluster]
+        X --> BB[Cache Layer]
+    end
+    
+    A --> F
+    F --> M
+    M --> T
+    T --> U
+    X --> Y
+    X --> Z
+    X --> AA
+    X --> BB
+    
+    style A fill:#e1f5fe
+    style F fill:#f3e5f5
+    style M fill:#e8f5e8
+    style T fill:#fff3e0
+    style X fill:#ff6b6b
+    style AA fill:#4caf50
+    style BB fill:#2196f3
+```
+
+### 🔄 Development Workflow
+
+```mermaid
+flowchart TD
+    A[Developer Local] --> B[Version Control]
+    B --> C[Feature Development]
+    C --> D[Unit Testing]
+    D --> E[Integration Testing]
+    E --> F[Code Review]
+    F --> G[Git Commit]
+    G --> H[CI/CD Pipeline]
+    H --> I[Staging Deployment]
+    I --> J[Production Release]
+    
+    J --> K[Monitoring & Analytics]
+    K --> L[Performance Optimization]
+    L --> M[User Feedback Loop]
+    M --> N[Issue Resolution]
+    N --> O[Documentation Updates]
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#4caf50
+    style D fill:#ff9800
+    style E fill:#ffeb3b
+    style F fill:#f3e5f5
+    style G fill:#4caf50
+    style H fill:#2196f3
+    style I fill:#ff9800
+    style J fill:#4caf50
+    style K fill:#2196f3
+    style L fill:#ff9800
+    style M fill:#ff9800
+    style N fill:#ff9800
+    style O fill:#ff9800
+```
+
+### 📋 Component Interaction Flow
+
+```mermaid
+sequenceDiagram
+    participant User as U
+    participant Dashboard as D
+    participant API as A
+    participant ML as M
+    participant Database as DB
+    
+    U->>D: Select City
+    D->>A: POST /api/load_city
+    A->>DB: Load City Data
+    DB-->>A: Return Stations & Lines
+    A-->>D: Update Station Dropdowns
+    
+    U->>D: Select Route
+    D->>A: POST /api/route
+    A->>M: GET Congestion Prediction
+    M-->>A: Return ML Insights
+    A->>A: Calculate Optimal Route
+    A-->>D: Display Route Results
+    
+    Note over A: Real-time updates
+    Note over M: Model retraining
+    Note over DB: Data consistency
+```
+
+---
+
 *Built with ❤️ by Prachi Choudhury*
 
 *Built to explore scalable route optimization under dynamic congestion conditions using graph algorithms and predictive ML.*
