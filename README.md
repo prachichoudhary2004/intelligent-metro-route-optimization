@@ -35,20 +35,20 @@ Weights are dynamically adjusted based on:
 
 ---
 
-## Core Features
+## 🧠 Why A* Wins
 
-- **Multi-City Support**: Dynamic graph loading for Delhi (NCR), Mumbai, and Bangalore.
-- **Explainable Route Decisions**: Transparent reasoning on why specific paths are prioritized.
-- **Predictive Congestion**: ML-driven load forecasting using Random Forest regressors.
-- **K-Shortest Paths**: Yen's algorithm implementation for high-availability alternatives.
-- **Real-Time Benchmarking**: Live DSA complexity analysis (Nodes scanned vs Search Latency).
-- **Interactive Heatmaps**: Visual pulse-markers and heat circles for high-traffic zones.
-- **Tradeoff Engine**: Automated evaluation of alternative route costs and delays.
-- **Realistic Timeline**: Station-by-station arrival scheduling and interchange badges.
+A* with a Haversine heuristic drastically reduces the search space compared to Dijkstra, making it ideal for large urban networks.
+
+| Algorithm | Avg Nodes Explored | Avg Latency |
+| --------- | ------------------ | ----------- |
+| Dijkstra  | 312                | 4.8ms       |
+| A*        | 112                | 1.7ms       |
+| Yen’s     | 524                | 8.2ms       |
 
 ---
 
-## System Architecture
+## 🌟 Core Features
+
 - 🛰️ **Multi-City Support**: Dynamic graph loading for Delhi (NCR), Mumbai, and Bangalore.
 - 🧠 **Explainable Route Decisions**: Transparent reasoning on why specific paths are prioritized.
 - 📈 **Predictive Congestion**: ML-driven load forecasting using Random Forest regressors.
@@ -60,59 +60,19 @@ Weights are dynamically adjusted based on:
 
 ---
 
-## 🏗️ System Architecture
+## 🏗️ System Workflow
 
-```mermaid
-graph TB
-    subgraph "Frontend Layer"
-        A[Dashboard UI] --> B[JavaScript Engine]
-        B --> C[Leaflet Maps]
-        B --> D[Route Visualizer]
-    end
-    
-    subgraph "API Gateway"
-        E[HTTP Server<br/>Port 8080] --> F[Java API<br/>Port 8081]
-        E --> G[ML Service<br/>Port 5000]
-    end
-    
-    subgraph "Core Services"
-        F --> H[Route Algorithms]
-        F --> I[Graph Manager]
-        F --> J[Cache Layer]
-        
-        H --> K[Dijkstra]
-        H --> L[A* Algorithm]
-        H --> M[Multi-Objective]
-        H --> N[Yen's K-Paths]
-        
-        I --> O[Dynamic Graph]
-        I --> P[Station Data]
-        I --> Q[Line Data]
-        
-        J --> R[LRU Cache]
-        J --> S[Performance Metrics]
-        
-        G --> T[Random Forest]
-        G --> U[Congestion Model]
-        G --> V[Demand Predictor]
-    end
-    
-    subgraph "Data Layer"
-        O --> W[JSON Data Files]
-        T --> X[Historical Data]
-        T --> Y[Training Models]
-    end
-    
-    style A fill:#4CAF50,stroke:#2E7D32,color:#fff
-    style F fill:#2196F3,stroke:#2E7D32,color:#fff
-    style G fill:#FF9800,stroke:#2E7D32,color:#fff
-```
-
-**Flow**: User selects stations → API calculates optimal routes → ML predicts congestion → Dashboard displays results
+1.  **User Input**: Source/Destination selection via a responsive map interface.
+2.  **Java Routing API**: High-performance request handling and graph initialization.
+3.  **ML Congestion Prediction**: Concurrent call to Python microservice for edge weight adjustments.
+4.  **Graph Optimization**: Parallel execution of Dijkstra, A*, and Yen's algorithms.
+5.  **Route Scoring**: Evaluation of paths based on time, distance, and predicted comfort.
+6.  **Tradeoff Analysis**: Automated rejection of sub-optimal paths with specific reasoning.
+7.  **Interactive Visualization**: Rendering of the optiworkflowmal path with animated polylines and tooltips.
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 | Component | Technology | Role |
 |-----------|------------|------|
@@ -150,119 +110,32 @@ graph TB
 
 ---
 
-## 📡 API Documentation
+## 📡 API Sample Response (v2.0)
 
-### Java API (Port 8081)
-- **Load City**: `POST /api/load_city`
-- **Calculate Route**: `POST /api/route`
-- **Health Check**: `GET /api/health`
-
-### ML Service (Port 5000)
-- **Predict Congestion**: `POST /api/predict_congestion`
-- **Batch Predictions**: `POST /api/batch_predict`
-
-[📖 View Full API Documentation](./docs/API.md)
+```json
+{
+  "success": true,
+  "path": ["RC", "MH", "YB", "ND62"],
+  "time": 24,
+  "cost": 65,
+  "congestion": "Low",
+  "algorithm": "A*",
+  "nodes_explored": 14,
+  "decision_insights": {
+    "confidence_score": 94.2,
+    "reason": "Minimized interchanges while avoiding predicted bottleneck at Central Secretariat."
+  }
+}
+```
 
 ---
 
 ## Getting Started
 
-### Prerequisites
-- **Java 11+** with JDK installed
-- **Python 3.9+** with pip
-- **Node.js 16+** (for development tools)
-- **Git** for version control
-
-### Installation Steps
-
-1. **Clone Repository**
-   ```bash
-   git clone https://github.com/prachichoudhary2004/intelligent-metro-route-optimization.git
-   cd intelligent-metro-route-optimization
-   ```
-
-2. **Install Java Dependencies**
-   ```bash
-   # Jackson libraries are included in lib/ folder
-   # Ensure JAVA_HOME is set correctly
-   export JAVA_HOME=/path/to/java11
-   ```
-
-3. **Install Python Dependencies**
-   ```bash
-   cd ml-services
-   pip install -r requirements.txt
-   ```
-
-4. **Train ML Models** (Optional for first-time setup)
-   ```bash
-   cd ml-services
-   python train_models.py
-   ```
-
-### Quick Start
-
-1. **Start All Services**
-   ```bash
-   # Windows
-   ./start_system.bat
-   
-   # Linux/Mac
-   ./start_system.sh
-   ```
-
-2. **Access Applications**
-   - **Dashboard**: http://localhost:8080
-   - **Java API**: http://localhost:8081
-   - **ML Service**: http://localhost:5000
-   - **API Docs**: http://localhost:8081/api/docs
-
-### Development Mode
-
-1. **Start Individual Services**
-   ```bash
-   # ML Service
-   cd ml-services && python app.py
-   
-   # Java API
-   cd java && java -cp ".;../lib/*" MetroRouteAPI
-   
-   # Dashboard
-   cd dashboard && python server.py
-   ```
-
-2. **Live Reload** (Dashboard only)
-   ```bash
-   cd dashboard
-   python -m http.server 8080 --bind localhost
-   ```
+1. **Train ML Models**: `cd ml-services && python train_models.py`
+2. **Start System**: Execute `./start_system.bat` from root.
+3. **Open Dashboard**: `http://localhost:8080/dashboard/index.html`
+4. **Interactive Docs**: `http://localhost:8081/api/docs`
 
 ---
-
-## 📊 Performance Benchmarks
-
-### Algorithm Performance (Delhi Metro - 24 stations)
-| Algorithm | Avg Time (ms) | Nodes Explored | Memory (MB) |
-|-----------|----------------|----------------|-------------|
-| Dijkstra  | 4.8 | 312 | 12 |
-| A*        | 1.7 | 112 | 14 |
-| Multi-Obj | 2.3 | 89 | 16 |
-| Yen's K=3 | 8.2 | 524 | 18 |
-
-### System Performance
-- **Route Calculation**: <2ms for medium-density networks
-- **Cache Hit Rate**: 82% after 1000 queries
-- **ML Prediction**: 45ms average response time
-- **Concurrent Requests**: 100+ requests/second
-
-### Scalability Metrics
-- **Memory Usage**: <50MB for full city network
-- **CPU Usage**: <15% during peak routing
-- **Network Latency**: <5ms between services
-- **Uptime**: 99.9% with automatic failover
-
----
-
-## 🚀 Build with ❤️ by Prachi Chaudhary
-
 *Built to explore scalable route optimization under dynamic congestion conditions using graph algorithms and predictive ML.*
