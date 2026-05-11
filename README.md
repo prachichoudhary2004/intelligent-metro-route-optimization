@@ -35,20 +35,20 @@ Weights are dynamically adjusted based on:
 
 ---
 
-## 🧠 Why A* Wins
+## Core Features
 
-A* with a Haversine heuristic drastically reduces the search space compared to Dijkstra, making it ideal for large urban networks.
-
-| Algorithm | Avg Nodes Explored | Avg Latency |
-| --------- | ------------------ | ----------- |
-| Dijkstra  | 312                | 4.8ms       |
-| A*        | 112                | 1.7ms       |
-| Yen’s     | 524                | 8.2ms       |
+- **Multi-City Support**: Dynamic graph loading for Delhi (NCR), Mumbai, and Bangalore.
+- **Explainable Route Decisions**: Transparent reasoning on why specific paths are prioritized.
+- **Predictive Congestion**: ML-driven load forecasting using Random Forest regressors.
+- **K-Shortest Paths**: Yen's algorithm implementation for high-availability alternatives.
+- **Real-Time Benchmarking**: Live DSA complexity analysis (Nodes scanned vs Search Latency).
+- **Interactive Heatmaps**: Visual pulse-markers and heat circles for high-traffic zones.
+- **Tradeoff Engine**: Automated evaluation of alternative route costs and delays.
+- **Realistic Timeline**: Station-by-station arrival scheduling and interchange badges.
 
 ---
 
-## 🌟 Core Features
-
+## System Architecture
 - 🛰️ **Multi-City Support**: Dynamic graph loading for Delhi (NCR), Mumbai, and Bangalore.
 - 🧠 **Explainable Route Decisions**: Transparent reasoning on why specific paths are prioritized.
 - 📈 **Predictive Congestion**: ML-driven load forecasting using Random Forest regressors.
@@ -106,21 +106,13 @@ graph TB
     style A fill:#4CAF50,stroke:#2E7D32,color:#fff
     style F fill:#2196F3,stroke:#2E7D32,color:#fff
     style G fill:#FF9800,stroke:#2E7D32,color:#fff
-    style O fill:#9C27B0,stroke:#2E7D32,color:#fff
-    style W fill:#607D8B,stroke:#2E7D32,color:#fff
 ```
 
-## 🏗️ System Workflow
-
-1.  **User Selection**: Choose source/destination via interactive map
-2.  **Route Calculation**: Java API processes optimal path algorithms  
-3.  **ML Integration**: Real-time congestion prediction adjusts route weights
-4.  **Path Optimization**: Multi-objective scoring finds best routes
-5. **Visual Display**: Interactive dashboard shows route with live metrics
+**Flow**: User selects stations → API calculates optimal routes → ML predicts congestion → Dashboard displays results
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Component | Technology | Role |
 |-----------|------------|------|
@@ -162,8 +154,7 @@ graph TB
 
 ### Java API (Port 8081)
 - **Load City**: `POST /api/load_city`
-- **Calculate Route**: `POST /api/route` 
-- **Compare Algorithms**: `POST /api/compare`
+- **Calculate Route**: `POST /api/route`
 - **Health Check**: `GET /api/health`
 
 ### ML Service (Port 5000)
