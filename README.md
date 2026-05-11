@@ -1,4 +1,4 @@
-# 🚇 Metro Navigator: Intelligent Route Optimization & Congestion Prediction
+# Metro Navigator: Intelligent Route Optimization & Congestion Prediction
 
 
 [![Stack](https://img.shields.io/badge/Stack-Java_|_Python_|_Flask_|_Leaflet-blue?style=for-the-badge)](#-tech-stack)
@@ -9,33 +9,32 @@ An advanced, multi-objective urban transit routing engine that balances shortest
 
 ## 💡 Why This Project Matters
 
-Modern urban transit systems face challenges that traditional routing cannot solve. **Metro Navigator** transforms static navigation into intelligent, adaptive routing by combining:
+Traditional metro navigation systems mainly focus on finding the shortest path, but real-world urban transit depends on much more than distance alone. Congestion, interchange delays, peak-hour crowding, and dynamic traffic conditions can significantly impact commuter experience.
 
-- **Predictive Intelligence**: ML models forecast congestion 30 minutes in advance
-- **Multi-Objective Optimization**: Balances time, comfort, reliability, and cost
-- **Real-Time Adaptation**: Routes adjust dynamically to changing conditions
-- **Explainable AI**: Users understand *why* routes are recommended
+Metro Navigator explores how graph algorithms, real-time machine learning, and system design can work together to build a smarter and more adaptive transit routing system.
 
-### 🎯 Project Goal
+### Key Ideas
 
-Designed to explore how intelligent routing can reduce congestion-aware travel inefficiencies in dense urban transit systems.
-
-### 🚀 Technical Implementation
-
-- **64% reduction** in search space through Haversine-guided heuristics
+* **Predictive Congestion Analysis** — Uses ML models to estimate congestion levels based on time, traffic patterns, and historical trends.
+* **Multi-Objective Route Optimization** — Balances travel time, congestion, interchanges, and commuter comfort instead of relying only on shortest distance.
+* **Dynamic Route Adaptation** — Adjusts routing decisions based on changing network conditions and predicted bottlenecks.
+* **Explainable Route Decisions** — Provides reasoning behind route recommendations and alternative path selection.
 
 ---
 
-## Core Features
+## **Core Features**
 
-- Multi-City Support: Dynamic graph loading for Delhi (NCR), Mumbai, and Bangalore.
-- Explainable Route Decisions: Transparent reasoning on why specific paths are prioritized (e.g., "Avoids predicted bottleneck at Central Secretariat").
-- Predictive Congestion: ML-driven load forecasting using Scikit-Learn Random Forest models.
-- Alternative Paths: Yen's K-Shortest Paths algorithm implementation for high-availability alternatives.
-- Real-Time Benchmarking: Live DSA complexity analysis (Nodes scanned vs Search Latency).
-- Interactive Heatmaps: Visual pulse-markers and heat circles for high-traffic zones in dashboard.
-- Tradeoff Engine: Automated evaluation of alternative route costs and delays.
-- Realistic Timeline: Station-by-station arrival scheduling and interchange badges.
+### **Key Functionality**
+
+- **Multi-City Support**: Dynamic graph loading for Delhi (NCR), Mumbai, and Bangalore.
+- **Explainable Route Decisions**: Transparent reasoning on why specific paths are prioritized (e.g., "Avoids predicted bottleneck at Central Secretariat").
+- **Predictive Congestion**: ML-driven load forecasting using Scikit-Learn Random Forest models.
+- **Alternative Paths**: Yen's K-Shortest Paths algorithm implementation for high-availability alternatives.
+- **Real-Time Benchmarking**: Live DSA complexity analysis (Nodes scanned vs Search Latency).
+- **Interactive Heatmaps**: Visual pulse-markers and heat circles for high-traffic zones in dashboard.
+- **Tradeoff Engine**: Automated evaluation of alternative route costs and delays.
+- **Realistic Timeline**: Station-by-station arrival scheduling and interchange badges.
+
 
 ---
 
@@ -125,6 +124,7 @@ flowchart TD
     style W fill:#ff9800
     style X fill:#ff9800
 ```
+---
 
 #### 📋 Workflow Stages Explained:
 
@@ -168,6 +168,9 @@ flowchart TD
 - Graceful degradation during system overload
 - Automatic recovery and self-healing capabilities
 
+
+---
+
 ### Data Processing Pipeline
 
 ```mermaid
@@ -192,50 +195,6 @@ flowchart LR
 ```
 
 ---
-
-## 📸 Dashboard Preview
-
-Screenshots and demo GIFs coming soon.
-
-
-The system processes data through multiple stages to transform raw transit information into actionable routing intelligence:
-
-```mermaid
-flowchart TD
-    A[Raw Metro Data] --> B[JSON Parser & Validator]
-    B --> C[Graph Builder]
-    C --> D[Station Indexer]
-    D --> E[Edge Weight Calculator]
-    
-    F[Historical Traffic Data] --> G[Feature Extractor]
-    G --> H[Random Forest Trainer]
-    H --> I[Live Prediction Engine]
-    
-    I -.->|Dynamic Congestion Weights| E
-    E --> J[Optimized Graph Structure]
-    
-    K[Real-time User Request] --> L[Route Calculator]
-    J --> L
-    L --> M[Multi-Objective Scorer]
-    M --> N[Path Optimizer]
-    N --> O[Response Generator]
-    
-    style A fill:#e1f5fe
-    style B fill:#f3e5f5
-    style C fill:#4caf50
-    style D fill:#ff9800
-    style E fill:#ff9800
-    style F fill:#e8f5e8
-    style G fill:#9c27b0
-    style H fill:#9c27b0
-    style I fill:#9c27b0
-    style K fill:#e8f5e8
-    style L fill:#4caf50
-    style M fill:#ff9800
-    style N fill:#ff9800
-    style O fill:#4caf50
-```
-
 ### Pipeline Stages:
 
 1. **Data Ingestion**: Raw JSON metro data is parsed and validated for structural integrity
@@ -353,6 +312,12 @@ Fetches real-time load predictions from the ML service.
 - **High-Performance Caching**: Implemented a concurrent LRU cache, improving repeated query latency by **85%** without relying on external stores like Redis.
 
 ---
+## Dashboard Preview
 
-*Built to explore scalable route optimization under dynamic congestion conditions using graph algorithms and predictive ML.*
-*By Prachi Choudhary*
+<img width="1920" height="921" alt="Screenshot (608)" src="https://github.com/user-attachments/assets/15532588-0ed6-41c4-b9f7-557479519fcc" /><br>
+
+<img width="1920" height="919" alt="Screenshot (609)" src="https://github.com/user-attachments/assets/19fa2a37-8a9b-4eda-9e35-bfb53e4ac331" />
+
+---
+~Built with ❤️ by Prachi Choudhary.
+
