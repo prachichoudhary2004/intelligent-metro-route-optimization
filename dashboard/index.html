@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metro Navigator | Advanced Transit Intelligence</title>
+    
+    <!-- Icons and Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Top Metrics Bar -->
+    <div class="metrics-bar">
+        <div class="metric-item">
+            <i class="fas fa-calculator"></i>
+            <span>Routes: <strong id="globalRoutes">1,284</strong></span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-item">
+            <i class="fas fa-bolt"></i>
+            <span>Latency: <strong id="globalLatency">18ms</strong></span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-item">
+            <i class="fas fa-memory"></i>
+            <span>Cache Hit: <strong id="globalCache">86%</strong></span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-item">
+            <i class="fas fa-brain"></i>
+            <span>ML Confidence: <strong id="globalML">94%</strong></span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="status-group">
+            <span class="status-pill online"><i class="fas fa-circle"></i> Java API</span>
+            <span class="status-pill online"><i class="fas fa-circle"></i> ML Service</span>
+            <span class="status-pill online"><i class="fas fa-circle"></i> Cache</span>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <i class="fas fa-subway"></i> METRO NAVIGATOR <span class="version-tag">v2.0 Pro</span>
+        </div>
+        <div class="header-actions">
+            <button class="btn-ghost" id="openArch"><i class="fas fa-sitemap"></i> System Architecture</button>
+            <button class="btn-ghost" id="benchmarkToggle"><i class="fas fa-microchip"></i> Benchmark Mode</button>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        <!-- Sidebar: Configuration -->
+        <aside class="panel config-panel">
+            <div class="section-header">
+                <h2><i class="fas fa-sliders"></i> Journey Planner</h2>
+                <span class="badge-new">LIVE</span>
+            </div>
+            
+            <div class="control-group">
+                <label><i class="fas fa-city"></i> Network</label>
+                <select id="citySelect">
+                    <option value="delhi">Delhi Metro (NCR)</option>
+                    <option value="mumbai">Mumbai Metro</option>
+                    <option value="bangalore">Namma Metro</option>
+                </select>
+            </div>
+
+            <div class="route-inputs">
+                <div class="form-group">
+                    <label>From</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-map-marker-alt source-icon"></i>
+                        <select id="sourceStation">
+                            <option value="">Select Origin...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="route-connector">
+                    <div class="connector-line"></div>
+                    <i class="fas fa-exchange-alt swap-btn"></i>
+                </div>
+
+                <div class="form-group">
+                    <label>To</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-location-dot dest-icon"></i>
+                        <select id="destStation">
+                            <option value="">Select Destination...</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label><i class="fas fa-wand-magic-sparkles"></i> Optimization Mode</label>
+                <div class="segmented-control">
+                    <input type="radio" name="mode" value="fastest" id="modeFast" checked>
+                    <label for="modeFast">Fastest</label>
+                    <input type="radio" name="mode" value="balanced" id="modeBalanced">
+                    <label for="modeBalanced">Balanced</label>
+                    <input type="radio" name="mode" value="least_congested" id="modeML">
+                    <label for="modeML">ML Comfort</label>
+                </div>
+            </div>
+
+            <div class="advanced-settings-toggle" id="toggleAdvanced">
+                <span>Advanced Search Settings</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+
+            <div class="advanced-panel" id="advancedPanel">
+                <div class="form-group">
+                    <label>Search Algorithm</label>
+                    <select id="algorithm">
+                        <option value="auto">Smart Selection (Recommended)</option>
+                        <option value="dijkstra">Dijkstra (Absolute Shortest)</option>
+                        <option value="astar">A* (Heuristic-Based)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Simulation Time: <span id="timeDisplay">12:00</span></label>
+                    <div class="time-slider-container">
+                        <span class="time-label">MORNING</span>
+                        <input type="range" id="timeSlider" min="0" max="23" value="12">
+                        <span class="time-label">EVENING</span>
+                    </div>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="disruptionToggle">
+                    <label for="disruptionToggle">Simulate Service Disruption</label>
+                </div>
+            </div>
+
+            <button id="computeRoute" class="btn-primary">
+                <i class="fas fa-route"></i> CALCULATE INTELLIGENT ROUTE
+            </button>
+        </aside>
+
+        <!-- Center: Map View -->
+        <section class="map-section">
+            <div id="map"></div>
+            <div class="map-legend">
+                <div class="legend-title">CONGESTION DENSITY</div>
+                <div class="legend-item"><span class="dot green"></span> Low (Normal)</div>
+                <div class="legend-item"><span class="dot orange"></span> Moderate</div>
+                <div class="legend-item"><span class="dot red"></span> High (Peak)</div>
+                <div class="legend-item"><span class="dot blue animate-pulse"></span> Active Route</div>
+            </div>
+        </section>
+
+        <!-- Right: Insights & Results -->
+        <aside class="panel results-sidebar">
+            <div id="emptyState">
+                <div class="empty-content">
+                    <div class="scanner-anim"></div>
+                    <i class="fas fa-microchip pulse-icon"></i>
+                    <h3>Engine Ready</h3>
+                    <p>Select origin and destination to begin graph-based optimization.</p>
+                </div>
+            </div>
+
+            <div id="routeResults" style="display: none;">
+                <div class="result-header">
+                    <div class="route-badge" id="routeTypeBadge">FASTEST ROUTE</div>
+                    <div class="reliability-score">
+                        <span class="score-val" id="mlConfidence">92%</span>
+                        <span class="score-tit">Reliability</span>
+                    </div>
+                </div>
+
+                <div class="main-route-card">
+                    <div class="stations-summary">
+                        <div class="station-node source">
+                            <span id="resSource">--</span>
+                        </div>
+                        <div class="station-connector"></div>
+                        <div class="station-node destination">
+                            <span id="resDest">--</span>
+                        </div>
+                    </div>
+
+                    <div class="metrics-grid">
+                        <div class="metric-box">
+                            <i class="fas fa-clock"></i>
+                            <span class="val" id="resultTime">--</span>
+                            <span class="tit">ETA</span>
+                        </div>
+                        <div class="metric-box">
+                            <i class="fas fa-ruler-horizontal"></i>
+                            <span class="val" id="resultDistance">--</span>
+                            <span class="tit">Distance</span>
+                        </div>
+                        <div class="metric-box">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span class="val" id="resultInterchanges">--</span>
+                            <span class="tit">Swaps</span>
+                        </div>
+                        <div class="metric-box">
+                            <i class="fas fa-traffic-light"></i>
+                            <span class="val" id="resCongestion">Medium</span>
+                            <span class="tit">Congestion</span>
+                        </div>
+                        <div class="metric-box">
+                            <i class="fas fa-indian-rupee-sign"></i>
+                            <span class="val" id="resultCost">--</span>
+                            <span class="tit">Fare</span>
+                        </div>
+                    </div>
+
+                    <div class="explanation-box">
+                        <label><i class="fas fa-brain"></i> Decision Reasoning</label>
+                        <p id="algReasoning">Selected because it minimizes travel time while avoiding predicted peak congestion near Central Secretariat.</p>
+                    </div>
+
+                    <div class="route-path-visual" id="routePathPills">
+                        <!-- Pills here -->
+                    </div>
+                </div>
+
+                <div class="tradeoff-analysis">
+                    <h3><i class="fas fa-balance-scale"></i> Tradeoff Analysis</h3>
+                    <div class="tradeoff-cards" id="tradeoffList">
+                        <!-- Tradeoff cards injected -->
+                    </div>
+                </div>
+
+                <div class="engineering-stats">
+                    <div class="stat-line">
+                        <span>Nodes Explored</span>
+                        <span class="stat-val" id="nodesExplored">0</span>
+                    </div>
+                    <div class="stat-line">
+                        <span>Search Latency</span>
+                        <span class="stat-val" id="resLatency">12ms</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Comparison Drawer -->
+    <div class="comparison-drawer" id="comparisonDrawer">
+        <div class="drawer-header" id="toggleDrawer">
+            <span><i class="fas fa-vial"></i> Algorithm Performance Comparison</span>
+            <i class="fas fa-chevron-up"></i>
+        </div>
+        <div class="drawer-content">
+            <table class="bench-table">
+                <thead>
+                    <tr>
+                        <th>Algorithm</th>
+                        <th>Execution Time</th>
+                        <th>Nodes Scanned</th>
+                        <th>Path Quality Score</th>
+                        <th>Heuristic Efficiency</th>
+                    </tr>
+                </thead>
+                <tbody id="benchmarkBody">
+                    <tr>
+                        <td>Dijkstra (Baseline)</td>
+                        <td id="benchDTime">--</td>
+                        <td id="benchDNodes">--</td>
+                        <td>100.0</td>
+                        <td>0%</td>
+                    </tr>
+                    <tr>
+                        <td>A* (Optimized)</td>
+                        <td id="benchATime">--</td>
+                        <td id="benchANodes">--</td>
+                        <td>100.0</td>
+                        <td id="benchAHeu">--</td>
+                    </tr>
+                    <tr>
+                        <td>Multi-Objective</td>
+                        <td id="benchMTime">--</td>
+                        <td id="benchMNodes">--</td>
+                        <td id="benchMScore">--</td>
+                        <td>N/A</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Architecture Modal -->
+    <div class="modal" id="archModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-sitemap"></i> System Architecture</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="arch-diagram">
+                    <div class="arch-node frontend">
+                        <i class="fab fa-js"></i>
+                        <span>Frontend (Leaflet + D3)</span>
+                    </div>
+                    <div class="arch-arrow"></div>
+                    <div class="arch-node backend">
+                        <i class="fab fa-java"></i>
+                        <span>Java API (Routing Engine)</span>
+                    </div>
+                    <div class="arch-arrow"></div>
+                    <div class="arch-node ml">
+                        <i class="fab fa-python"></i>
+                        <span>Flask (ML Prediction)</span>
+                    </div>
+                    <div class="arch-data">
+                        <div class="data-store"><i class="fas fa-database"></i> Redis Cache</div>
+                        <div class="data-store"><i class="fas fa-network-wired"></i> Graph DS</div>
+                    </div>
+                </div>
+                <div class="arch-description">
+                    <p><strong>Routing Engine:</strong> Multi-threaded Java core implementing Dijkstra, A*, and Yen's algorithm for alternative paths.</p>
+                    <p><strong>Prediction Service:</strong> Python Flask microservice using Scikit-learn Random Forest models for real-time congestion forecasting.</p>
+                    <p><strong>Intelligence Layer:</strong> Weighted edge adjustments based on ML confidence scores and historical traffic patterns.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loadingOverlay">
+        <div class="loader-container">
+            <div class="metro-loader"></div>
+            <div class="loader-text">RUNNING GRAPH OPTIMIZATION...</div>
+            <div class="loader-subtext" id="loaderStep">Scanning 412 metro segments</div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

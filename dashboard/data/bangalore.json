@@ -1,0 +1,63 @@
+{
+  "metadata": {
+    "city": "Bangalore",
+    "country": "India",
+    "total_stations": 18,
+    "total_lines": 2,
+    "center_lat": 12.9716,
+    "center_lon": 77.5946
+  },
+  "stations": [
+    {"id": "BYPL", "name": "Byappanahalli", "lat": 12.9865, "lon": 77.6565, "line": "Purple"},
+    {"id": "MG", "name": "MG Road", "lat": 12.9765, "lon": 77.6065, "line": "Purple"},
+    {"id": "TR", "name": "Trinity", "lat": 13.0065, "lon": 77.5665, "line": "Purple"},
+    {"id": "SVR", "name": "Sir M. Visvesvaraya", "lat": 13.0165, "lon": 77.5765, "line": "Purple"},
+    {"id": "RJ", "name": "Rajajinagar", "lat": 13.0065, "lon": 77.5465, "line": "Purple"},
+    {"id": "KMS", "name": "Kempegowda", "lat": 12.9765, "lon": 77.5365, "line": "Purple"},
+    {"id": "NAG", "name": "Nagasandra", "lat": 12.9665, "lon": 77.5065, "line": "Purple"},
+    {"id": "BSK", "name": "Banashankari", "lat": 12.9365, "lon": 77.5365, "line": "Green"},
+    {"id": "JP", "name": "Jayaprakash", "lat": 12.9265, "lon": 77.5665, "line": "Green"},
+    {"id": "YLC", "name": "Yelachenahalli", "lat": 12.9065, "lon": 77.5765, "line": "Green"},
+    {"id": "VNC", "name": "Vijayanagar", "lat": 12.9465, "lon": 77.5165, "line": "Green"},
+    {"id": "MYS", "name": "Mysore Road", "lat": 12.9565, "lon": 77.5065, "line": "Green"},
+    {"id": "KCH", "name": "Kochi", "lat": 12.9665, "lon": 77.4965, "line": "Green"},
+    {"id": "BOM", "name": "Bommanahalli", "lat": 12.8865, "lon": 77.6265, "line": "Green"},
+    {"id": "ECL", "name": "Electronic City", "lat": 12.8465, "lon": 77.6765, "line": "Green"},
+    {"id": "HSR", "name": "HSR Layout", "lat": 12.9165, "lon": 77.6465, "line": "Green"},
+    {"id": "IND", "name": "Indiranagar", "lat": 12.9765, "lon": 77.6365, "line": "Purple"},
+    {"id": "HAL", "name": "HAL", "lat": 12.9565, "lon": 77.6565, "line": "Purple"}
+  ],
+  "edges": [
+    {"from": "BYPL", "to": "IND", "distance": 8.5, "time": 12, "line": "Purple"},
+    {"from": "IND", "to": "MG", "distance": 4.5, "time": 6, "line": "Purple"},
+    {"from": "MG", "to": "TR", "distance": 6.0, "time": 8, "line": "Purple"},
+    {"from": "TR", "to": "SVR", "distance": 3.5, "time": 5, "line": "Purple"},
+    {"from": "SVR", "to": "RJ", "distance": 5.0, "time": 7, "line": "Purple"},
+    {"from": "RJ", "to": "KMS", "distance": 4.5, "time": 6, "line": "Purple"},
+    {"from": "KMS", "to": "NAG", "distance": 6.5, "time": 9, "line": "Purple"},
+    {"from": "BSK", "to": "JP", "distance": 5.5, "time": 8, "line": "Green"},
+    {"from": "JP", "to": "YLC", "distance": 4.0, "time": 6, "line": "Green"},
+    {"from": "YLC", "to": "VNC", "distance": 7.0, "time": 10, "line": "Green"},
+    {"from": "VNC", "to": "MYS", "distance": 3.5, "time": 5, "line": "Green"},
+    {"from": "MYS", "to": "KCH", "distance": 2.5, "time": 4, "line": "Green"},
+    {"from": "KCH", "to": "BOM", "distance": 12.0, "time": 18, "line": "Green"},
+    {"from": "BOM", "to": "ECL", "distance": 8.0, "time": 12, "line": "Green"},
+    {"from": "ECL", "to": "HSR", "distance": 6.5, "time": 9, "line": "Green"},
+    {"from": "HSR", "to": "IND", "distance": 8.5, "time": 12, "line": "Green"},
+    {"from": "IND", "to": "HAL", "distance": 3.5, "time": 5, "line": "Purple"},
+    {"from": "HAL", "to": "BYPL", "distance": 6.0, "time": 8, "line": "Purple"},
+    {"from": "MG", "to": "HSR", "distance": 10.0, "time": 15, "line": "Purple"},
+    {"from": "KMS", "to": "VNC", "distance": 8.0, "time": 12, "line": "Purple"},
+    {"from": "JP", "to": "MYS", "distance": 5.5, "time": 8, "line": "Green"}
+  ],
+  "lines": [
+    {"id": "Purple", "name": "Purple Line", "color": "#8B008B"},
+    {"id": "Green", "name": "Green Line", "color": "#008000"}
+  ],
+  "interchanges": [
+    {"station": "Indiranagar", "lines": ["Purple", "Green"]},
+    {"station": "MG Road", "lines": ["Purple"]},
+    {"station": "Kempegowda", "lines": ["Purple", "Green"]},
+    {"station": "Mysore Road", "lines": ["Purple", "Green"]}
+  ]
+}

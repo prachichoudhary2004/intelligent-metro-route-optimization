@@ -1,0 +1,20 @@
+[
+    {
+        "algorithm": "Random Forest",
+        "mae": 0.8426,
+        "r2_score": 0.8649,
+        "latency_ms": 0.80981
+    },
+    {
+        "algorithm": "Gradient Boosting",
+        "mae": 0.8046,
+        "r2_score": 0.8797,
+        "latency_ms": 0.38079
+    },
+    {
+        "algorithm": "Linear Regression",
+        "mae": 2.2789,
+        "r2_score": 0.0368,
+        "latency_ms": 0.01712
+    }
+]

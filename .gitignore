@@ -1,0 +1,29 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+.project
+.classpath
+.settings/
+bin/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+ENV/
+.env
+.pytest_cache/
+ml-services/models/*.joblib
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project Specific
+logs/
+temp/
+test_body.json
+benchmark_results.json

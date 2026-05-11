@@ -1,0 +1,60 @@
+{
+  "metadata": {
+    "city": "Kolkata",
+    "country": "India",
+    "total_stations": 16,
+    "total_lines": 2,
+    "center_lat": 22.5726,
+    "center_lon": 88.3639
+  },
+  "stations": [
+    {"id": "DK", "name": "Dum Dum", "lat": 22.6455, "lon": 88.3955, "line": "Blue"},
+    {"id": "NSB", "name": "Noapara", "lat": 22.6255, "lon": 88.3855, "line": "Blue"},
+    {"id": "BBG", "name": "Baranagar", "lat": 22.6155, "lon": 88.3755, "line": "Blue"},
+    {"id": "DGH", "name": "Dum Dum Cantonment", "lat": 22.6055, "lon": 88.3655, "line": "Blue"},
+    {"id": "MG", "name": "Maniktala", "lat": 22.5955, "lon": 88.3555, "line": "Blue"},
+    {"id": "CTR", "name": "Central", "lat": 22.5755, "lon": 88.3455, "line": "Blue"},
+    {"id": "PK", "name": "Park Street", "lat": 22.5555, "lon": 88.3355, "line": "Blue"},
+    {"id": "KD", "name": "Kalighat", "lat": 22.5355, "lon": 88.3255, "line": "Blue"},
+    {"id": "RBN", "name": "Rabindra Sarobar", "lat": 22.5155, "lon": 88.3155, "line": "Blue"},
+    {"id": "TOL", "name": "Tollygunge", "lat": 22.4955, "lon": 88.3055, "line": "Blue"},
+    {"id": "MCH", "name": "Maidan", "lat": 22.5655, "lon": 88.3455, "line": "Green"},
+    {"id": "ELR", "name": "Esplanade", "lat": 22.5555, "lon": 88.3355, "line": "Green"},
+    {"id": "BRH", "name": "Behala", "lat": 22.4855, "lon": 88.2955, "line": "Green"},
+    {"id": "JTR", "name": "Jadavpur", "lat": 22.4755, "lon": 88.2855, "line": "Green"},
+    {"id": "GAR", "name": "Garia", "lat": 22.4655, "lon": 88.2755, "line": "Green"},
+    {"id": "NSD", "name": "New Garia", "lat": 22.4555, "lon": 88.2655, "line": "Green"}
+  ],
+  "edges": [
+    {"from": "DK", "to": "NSB", "distance": 2.5, "time": 4, "line": "Blue"},
+    {"from": "NSB", "to": "BBG", "distance": 2.0, "time": 3, "line": "Blue"},
+    {"from": "BBG", "to": "DGH", "distance": 2.5, "time": 4, "line": "Blue"},
+    {"from": "DGH", "to": "MG", "distance": 3.0, "time": 5, "line": "Blue"},
+    {"from": "MG", "to": "CTR", "distance": 3.5, "time": 6, "line": "Blue"},
+    {"from": "CTR", "to": "PK", "distance": 2.5, "time": 4, "line": "Blue"},
+    {"from": "PK", "to": "KD", "distance": 3.0, "time": 5, "line": "Blue"},
+    {"from": "KD", "to": "RBN", "distance": 2.5, "time": 4, "line": "Blue"},
+    {"from": "RBN", "to": "TOL", "distance": 3.0, "time": 5, "line": "Blue"},
+    {"from": "MCH", "to": "ELR", "distance": 2.0, "time": 3, "line": "Green"},
+    {"from": "ELR", "to": "PK", "distance": 1.5, "time": 2, "line": "Green"},
+    {"from": "ELR", "to": "BRH", "distance": 8.0, "time": 12, "line": "Green"},
+    {"from": "BRH", "to": "JTR", "distance": 2.5, "time": 4, "line": "Green"},
+    {"from": "JTR", "to": "GAR", "distance": 2.0, "time": 3, "line": "Green"},
+    {"from": "GAR", "to": "NSD", "distance": 2.5, "time": 4, "line": "Green"},
+    {"from": "CTR", "to": "MCH", "distance": 2.0, "time": 3, "line": "Blue"},
+    {"from": "KD", "to": "ELR", "distance": 3.5, "time": 6, "line": "Blue"},
+    {"from": "TOL", "to": "BRH", "distance": 5.5, "time": 8, "line": "Blue"},
+    {"from": "NSD", "to": "TOL", "distance": 6.0, "time": 9, "line": "Green"},
+    {"from": "JTR", "to": "RBN", "distance": 4.0, "time": 6, "line": "Green"}
+  ],
+  "lines": [
+    {"id": "Blue", "name": "North-South Line", "color": "#0066CC"},
+    {"id": "Green", "name": "East-West Line", "color": "#009900"}
+  ],
+  "interchanges": [
+    {"station": "Park Street", "lines": ["Blue", "Green"]},
+    {"station": "Central", "lines": ["Blue", "Green"]},
+    {"station": "Esplanade", "lines": ["Blue", "Green"]},
+    {"station": "Kalighat", "lines": ["Blue", "Green"]}
+  ]
+}
