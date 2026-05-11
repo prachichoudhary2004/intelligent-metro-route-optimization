@@ -56,85 +56,87 @@ Modern urban transit systems face challenges that traditional routing cannot sol
 
 The system uses a decoupled microservices architecture, ensuring high availability and separation of concerns between the high-performance routing engine and the ML prediction service.
 
-### System Architecture
-
-```mermaid
-graph TB
-    subgraph "Frontend Layer"
-        A[Dashboard UI / Leaflet Maps]
-    end
-    
-    subgraph "API Gateway Layer"
-        F[Java API Server - Port 8081]
-        F --> G[Route Handler & City Loader]
-        F --> K[CORS & Cache Manager]
-    end
-    
-    subgraph "ML Service Layer"
-        M[Python Flask - Port 5000]
-        M --> N[Congestion Predictor]
-        M --> Q[Random Forest Models]
-    end
-    
-    subgraph "Data Layer"
-        T[JSON Data Store]
-    end
-    
-    A -->|REST API| F
-    F <-->|HTTP Predict Requests| M
-    M --> T
-    F --> T
-    
-    style A fill:#e1f5fe
-    style F fill:#f3e5f5
-    style M fill:#e8f5e8
-    style T fill:#fff3e0
-```
-
-### 🔄 System Workflow
-
-The complete system workflow demonstrates how data flows through various components to deliver intelligent routing recommendations:
+### 🔄 System Architecture & Workflow
 
 ```mermaid
 flowchart TD
-    A[User Interaction] --> B[City Selection]
-    B --> C[Station Loading]
-    C --> D[Route Request]
-    D --> E[Algorithm Selection]
-    E --> F[Route Calculation]
-    F --> G[ML Prediction]
-    G --> H[Multi-Objective Scoring]
-    H --> I[Result Generation]
-    I --> J[Visualization]
+    subgraph "🌐 Frontend Layer"
+        A[Dashboard UI<br/>Interactive Maps]
+        A --> B[Route Visualization]
+        A --> C[Performance Metrics]
+    end
     
-    K[Background Processes] --> L[Data Ingestion]
-    L --> M[Model Training]
-    M --> N[Cache Updates]
-    N --> O[Health Monitoring]
+    subgraph "⚙️ API Gateway Layer"
+        D[Java API Server<br/>Port 8081]
+        D --> E[Route Handler]
+        D --> F[City Loader]
+        D --> G[CORS Manager]
+        D --> H[LRU Cache]
+    end
     
-    P[External Events] --> Q[Traffic Updates]
-    Q --> R[Incident Detection]
-    R --> S[Dynamic Re-routing]
+    subgraph "🧠 ML Service Layer"
+        I[Python Flask<br/>Port 5000]
+        I --> J[Congestion Predictor]
+        I --> K[Random Forest Models]
+        I --> L[Batch Processor]
+    end
     
-    style A fill:#e1f5fe
-    style B fill:#f3e5f5
-    style C fill:#4caf50
-    style D fill:#ff9800
-    style E fill:#ff9800
-    style F fill:#4caf50
-    style G fill:#9c27b0
-    style H fill:#ff9800
-    style I fill:#4caf50
-    style J fill:#e1f5fe
-    style K fill:#f3e5f5
-    style L fill:#9c27b0
-    style M fill:#9c27b0
-    style N fill:#ff9800
-    style O fill:#4caf50
-    style P fill:#ff6b6b
-    style Q fill:#ff6b6b
-    style R fill:#ff6b6b
-    style S fill:#ff6b6b
+    subgraph "💾 Data Layer"
+        M[JSON Data Store<br/>Metro Networks]
+        M --> N[Historical Traffic]
+        M --> O[City Configurations]
+    end
+    
+    subgraph "🔄 User Flow"
+        P[City Selection] --> Q[Station Loading]
+        Q --> R[Route Request]
+        R --> S[Algorithm Selection]
+        S --> T[Route Calculation]
+    end
+    
+    subgraph "🚀 Processing Pipeline"
+        U[ML Prediction] --> V[Multi-Objective Scoring]
+        V --> W[Path Optimization]
+        W --> X[Response Generation]
+    end
+    
+    A -->|REST API| D
+    D <-->|HTTP Requests| I
+    I <-->|Data Access| M
+    D <-->|Data Access| M
+    
+    P --> S
+    S --> T
+    T --> U
+    U --> V
+    V --> W
+    W --> X
+    X --> B
+    
+    style A fill:#e3f2fd
+    style B fill:#e3f2fd
+    style C fill:#e3f2fd
+    style D fill:#f3e5f5
+    style E fill:#f3e5f5
+    style F fill:#f3e5f5
+    style G fill:#f3e5f5
+    style H fill:#f3e5f5
+    style I fill:#e8f5e8
+    style J fill:#e8f5e8
+    style K fill:#e8f5e8
+    style L fill:#e8f5e8
+    style M fill:#fff3e0
+    style N fill:#fff3e0
+    style O fill:#fff3e0
+    style P fill:#4caf50
+    style Q fill:#4caf50
+    style R fill:#4caf50
+    style S fill:#4caf50
+    style T fill:#4caf50
+    style U fill:#ff9800
+    style V fill:#ff9800
+    style W fill:#ff9800
+    style X fill:#ff9800
 ```
 
 #### 📋 Workflow Stages Explained:
