@@ -151,24 +151,6 @@ flowchart TD
 - **Incident Detection**: Service disruption identification
 - **Dynamic Re-routing**: Automatic path recalculation during incidents
 
-#### 🚀 Performance Optimization in Workflow:
-
-**Real-Time Processing:**
-- Sub-2ms route calculation for immediate response
-- Parallel ML prediction for non-blocking operation
-- Intelligent caching for 85% hit rate on repeated queries
-
-**Scalability Features:**
-- Horizontal scaling ready architecture
-- Microservice isolation for independent scaling
-- Load balancing capabilities for high traffic
-
-**Reliability Mechanisms:**
-- Zero-downtime fallback for ML service failures
-- Graceful degradation during system overload
-- Automatic recovery and self-healing capabilities
-
-
 ---
 
 ### Data Processing Pipeline
