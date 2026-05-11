@@ -76,7 +76,7 @@ A* with a Haversine heuristic drastically reduces the search space compared to D
 
 ---
 
-## 🏗️ System Workflow
+## 🏗️ System Architecture
 
 1.  **User Input**: Source/Destination selection via a responsive map interface.
 2.  **Java Routing API**: High-performance request handling and graph initialization.
@@ -199,7 +199,235 @@ cd dashboard && python -m http.server 8080
 
 ---
 
-## Installation Guide
+## 📡 Enhanced API Documentation
+
+### Core Endpoints
+
+#### 🚇 Route Calculation
+```http
+POST /api/route
+Content-Type: application/json
+
+{
+  "source": "RC",
+  "destination": "ND62", 
+  "algorithm": "astar",
+  "mode": "fastest"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "path": ["RC", "AIIMS", "NDLS"],
+  "time": 18,
+  "distance": 12.5,
+  "congestion": "Medium",
+  "algorithm": "A*",
+  "nodes_explored": 24,
+  "decision_insights": {
+    "confidence_score": 94.2,
+    "reason": "Optimal path selected with minimal interchanges"
+  }
+}
+```
+
+#### 🏙️ City Data Loading
+```http
+POST /api/load_city
+Content-Type: application/json
+
+{
+  "city": "delhi"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "city": "delhi",
+  "stations": [
+    {
+      "id": "RC",
+      "name": "Rajiv Chowk",
+      "latitude": 28.6333,
+      "longitude": 77.2167,
+      "line": "Blue"
+    }
+  ],
+  "lines": [
+    {
+      "id": "Blue",
+      "name": "Blue Line",
+      "color": "#0033A0"
+    }
+  ]
+}
+```
+
+#### 🏥 Health Check
+```http
+GET /api/health
+```
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "cache_hit_rate": 0.85,
+  "graph_size": 24,
+  "cache_hits": 142,
+  "cache_misses": 25
+}
+```
+
+### ML Service Endpoints
+
+#### 📈 Congestion Prediction
+```http
+POST /api/predict_congestion
+Content-Type: application/json
+
+{
+  "station": "RC",
+  "hour": 18
+}
+```
+
+**Response:**
+```json
+{
+  "station": "RC",
+  "hour": 18,
+  "congestion": 0.73,
+  "level": "high",
+  "confidence": 0.89
+}
+```
+
+#### 🚀 Batch Prediction
+```http
+POST /api/batch_predict
+Content-Type: application/json
+
+{
+  "stations": ["RC", "AIIMS", "NDLS"],
+  "hour": 18
+}
+```
+
+**Response:**
+```json
+{
+  "hour": 18,
+  "predictions": [
+    {
+      "station": "RC",
+      "congestion": 0.73,
+      "delay_risk": 0.45,
+      "demand": 1250
+    },
+    {
+      "station": "AIIMS", 
+      "congestion": 0.65,
+      "delay_risk": 0.32,
+      "demand": 980
+    }
+  ]
+}
+```
+
+### Error Handling
+
+#### 🔴 Common Error Responses
+```json
+{
+  "success": false,
+  "error": "City not found",
+  "code": 404
+}
+```
+
+```json
+{
+  "success": false,
+  "error": "Invalid algorithm specified",
+  "supported_algorithms": ["dijkstra", "astar", "multi_objective"]
+}
+```
+
+### Rate Limiting
+
+- **100 requests/minute** per IP
+- **Burst capacity**: 500 requests for 10 seconds
+- **Automatic retry**: Exponential backoff for failed requests
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- **Java 11+** with HTTP server support
+- **Python 3.9+** with pip package manager
+- **Node.js 16+** (for development tools)
+- **Git** for version control
+
+### Quick Start
+
+1. **Clone Repository**
+   ```bash
+   git clone https://github.com/prachichoudhary2004/intelligent-metro-route-optimization.git
+   cd intelligent-metro-route-optimization
+   ```
+
+2. **Install Dependencies**
+   ```bash
+   # Python dependencies
+   pip install -r requirements.txt
+   
+   # Java dependencies (auto-managed)
+   # All JAR files are included in lib/ folder
+   ```
+
+3. **Train ML Models**
+   ```bash
+   cd ml-services
+   python train_models.py
+   ```
+
+4. **Start All Services**
+   ```bash
+   # Windows
+   ./start_system.bat
+   
+   # Linux/Mac
+   ./start_system.sh
+   ```
+
+5. **Access Dashboard**
+   - **Main Interface**: http://localhost:8080/dashboard/index.html
+   - **API Documentation**: http://localhost:8081/api/docs
+   - **ML Service**: http://localhost:5000
+
+### Development Mode
+
+For development with hot reload:
+```bash
+# Start ML service with auto-reload
+cd ml-services && python app.py
+
+# Start Java API in debug mode
+cd java && java -cp ".;../lib/*" MetroRouteAPI
+
+# Start dashboard with live reload
+cd dashboard && python -m http.server 8080
+```
+
+---
+
+## 🔧 Installation Guide
 
 ### System Requirements
 
@@ -245,86 +473,6 @@ cp config.example.json config.json
 
 # Edit configuration
 nano config.json
-```
-
----
-
-## Troubleshooting
-
-### Common Issues
-
-#### Port Conflicts
-**Problem**: Services fail to start with "Address already in use"
-```bash
-# Find processes using ports
-netstat -ano | findstr :8080
-netstat -ano | findstr :8081
-netstat -ano | findstr :5000
-
-# Kill processes
-taskkill /PID <process_id> /F
-```
-
-#### Java Compilation Issues
-**Problem**: "package does not exist" or compilation errors
-```bash
-# Clean and recompile
-cd java
-javac -cp ".;../lib/*" *.java */*.java
-
-# Check classpath
-echo $CLASSPATH
-```
-
-#### ML Service Issues
-**Problem**: ML models not loading or predictions failing
-```bash
-# Re-train models
-cd ml-services
-python train_models.py --force
-
-# Check model files
-ls -la models/
-```
-
-#### Frontend Issues
-**Problem**: Maps not loading or API calls failing
-```bash
-# Check browser console for CORS errors
-# Verify API endpoints are accessible
-curl http://localhost:8081/api/health
-
-# Clear browser cache
-Ctrl+F5 (hard refresh)
-```
-
-### Performance Issues
-
-#### Slow Route Calculation
-**Solutions**:
-- Enable LRU caching in API
-- Use A* algorithm instead of Dijkstra
-- Reduce graph complexity with station pruning
-
-#### High Memory Usage
-**Solutions**:
-- Reduce JVM heap size: `-Xmx512m`
-- Enable graph pruning for large cities
-- Use streaming for large datasets
-
-### Debug Mode
-
-Enable detailed logging:
-```bash
-# Java API debug
-cd java && java -cp ".;../lib/*" -Ddebug=true MetroRouteAPI
-
-# ML service debug
-cd ml-services && python app.py --debug
-
-# Dashboard debug
-# Open browser developer tools (F12)
-# Check Network tab for failed requests
 ```
 
 ---
