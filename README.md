@@ -112,13 +112,11 @@ graph TB
 
 ## 🏗️ System Workflow
 
-1.  **User Input**: Source/Destination selection via a responsive map interface.
-2.  **Java Routing API**: High-performance request handling and graph initialization.
-3.  **ML Congestion Prediction**: Concurrent call to Python microservice for edge weight adjustments.
-4.  **Graph Optimization**: Parallel execution of Dijkstra, A*, and Yen's algorithms.
-5.  **Route Scoring**: Evaluation of paths based on time, distance, and predicted comfort.
-6.  **Tradeoff Analysis**: Automated rejection of sub-optimal paths with specific reasoning.
-7.  **Interactive Visualization**: Rendering of the optimal path with animated polylines and tooltips.
+1.  **User Selection**: Choose source/destination via interactive map
+2.  **Route Calculation**: Java API processes optimal path algorithms  
+3.  **ML Integration**: Real-time congestion prediction adjusts route weights
+4.  **Path Optimization**: Multi-objective scoring finds best routes
+5. **Visual Display**: Interactive dashboard shows route with live metrics
 
 ---
 
@@ -162,192 +160,17 @@ graph TB
 
 ## 📡 API Documentation
 
-### Base URL
-```
-http://localhost:8081/api
-```
+### Java API (Port 8081)
+- **Load City**: `POST /api/load_city`
+- **Calculate Route**: `POST /api/route` 
+- **Compare Algorithms**: `POST /api/compare`
+- **Health Check**: `GET /api/health`
 
-### Endpoints
+### ML Service (Port 5000)
+- **Predict Congestion**: `POST /api/predict_congestion`
+- **Batch Predictions**: `POST /api/batch_predict`
 
-#### 1. Load City Network
-```http
-POST /api/load_city
-Content-Type: application/json
-```
-
-**Request:**
-```json
-{
-  "city": "delhi"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "city": "delhi",
-  "stations": [
-    {
-      "id": "RC",
-      "name": "Rajiv Chowk",
-      "latitude": 28.6333,
-      "longitude": 77.2167,
-      "line": "Blue"
-    }
-  ],
-  "lines": [
-    {
-      "id": "Blue",
-      "name": "Blue Line",
-      "color": "#0033A0"
-    }
-  ]
-}
-```
-
-#### 2. Calculate Optimal Route
-```http
-POST /api/route
-Content-Type: application/json
-```
-
-**Request:**
-```json
-{
-  "source": "RC",
-  "destination": "ND62",
-  "algorithm": "astar",
-  "mode": "fastest"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "path": ["RC", "YB", "ND62"],
-  "time": 24,
-  "cost": 65,
-  "congestion": "Low",
-  "algorithm": "A*",
-  "nodes_explored": 14,
-  "decision_insights": {
-    "confidence_score": 94.2,
-    "reason": "Minimized interchanges while avoiding predicted bottleneck at Central Secretariat."
-  }
-}
-```
-
-#### 3. Compare Multiple Algorithms
-```http
-POST /api/compare
-Content-Type: application/json
-```
-
-**Request:**
-```json
-{
-  "source": "RC",
-  "destination": "ND62",
-  "algorithms": ["dijkstra", "astar", "multiobjective"]
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "comparison": [
-    {
-      "algorithm": "Dijkstra",
-      "path": ["RC", "YB", "ND62"],
-      "time": 26,
-      "cost": 68,
-      "nodes_explored": 312
-    },
-    {
-      "algorithm": "A*",
-      "path": ["RC", "YB", "ND62"],
-      "time": 24,
-      "cost": 65,
-      "nodes_explored": 112
-    }
-  ]
-}
-```
-
-#### 4. Health Check
-```http
-GET /api/health
-```
-
-**Response:**
-```json
-{
-  "status": "healthy",
-  "graph_size": 24,
-  "cache_hit_rate": 0.82,
-  "cache_hits": 156,
-  "cache_misses": 34
-}
-```
-
-### ML Service Endpoints
-
-#### 1. Predict Congestion
-```http
-POST http://localhost:5000/api/predict_congestion
-Content-Type: application/json
-```
-
-**Request:**
-```json
-{
-  "station": "RC",
-  "hour": 18
-}
-```
-
-**Response:**
-```json
-{
-  "station": "RC",
-  "hour": 18,
-  "congestion": 0.73,
-  "level": "high",
-  "confidence": 0.85
-}
-```
-
-#### 2. Batch Predictions
-```http
-POST http://localhost:5000/api/batch_predict
-Content-Type: application/json
-```
-
-**Request:**
-```json
-{
-  "stations": ["RC", "YB", "ND62"],
-  "hour": 18
-}
-```
-
-**Response:**
-```json
-{
-  "hour": 18,
-  "predictions": [
-    {
-      "station": "RC",
-      "congestion": 0.73,
-      "delay_risk": 0.45,
-      "demand": 2340
-    }
-  ]
-}
-```
+[📖 View Full API Documentation](./docs/API.md)
 
 ---
 
@@ -425,116 +248,6 @@ Content-Type: application/json
 
 ---
 
-## 🛠️ Troubleshooting
-
-### Common Issues
-
-#### 1. Port Already in Use
-**Problem**: `Address already in use: bind` error
-**Solution**: 
-```bash
-# Find and kill process using port
-netstat -ano | findstr :8081
-taskkill /PID <PID> /F
-
-# Or use different ports in config files
-```
-
-#### 2. ML Service Not Responding
-**Problem**: API timeouts when calling ML service
-**Solution**:
-```bash
-# Check if ML service is running
-curl http://localhost:5000/api/health
-
-# Restart ML service
-cd ml-services && python app.py
-```
-
-#### 3. Stations Not Loading in Dropdown
-**Problem**: Source/destination dropdowns empty
-**Solution**:
-```bash
-# Check browser console for JavaScript errors
-# Verify API response
-curl -X POST http://localhost:8081/api/load_city -H "Content-Type: application/json" -d "{\"city\":\"delhi\"}"
-```
-
-#### 4. Java Compilation Errors
-**Problem**: `package not found` errors
-**Solution**:
-```bash
-# Ensure correct classpath
-java -cp ".;lib\*" MetroRouteAPI
-
-# Check if Jackson libraries exist in lib/ folder
-ls lib/
-```
-
-### FAQ
-
-#### Q: How do I add a new city?
-**A**: Create a new JSON file in `data/` folder with the following structure:
-```json
-{
-  "metadata": {
-    "city": "YourCity",
-    "center_lat": 28.6139,
-    "center_lon": 77.2090
-  },
-  "stations": [...],
-  "edges": [...],
-  "lines": [...]
-}
-```
-
-#### Q: Can I run this on Linux/Mac?
-**A**: Yes, but use the shell script instead of batch file:
-```bash
-chmod +x start_system.sh
-./start_system.sh
-```
-
-#### Q: How accurate are the ML predictions?
-**A**: The RandomForest models are trained on historical data with ~85% accuracy for congestion prediction. Accuracy improves with more data.
-
-#### Q: Can I use custom routing algorithms?
-**A**: Yes, implement the `Graph` interface in `java/algorithms/` and update `MetroRouteAPI.java` to register your algorithm.
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Please follow these guidelines:
-
-### Development Setup
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature`
-3. Make your changes
-4. Test thoroughly with all three services running
-5. Submit a pull request
-
-### Code Standards
-- **Java**: Follow Google Java Style Guide
-- **Python**: Use PEP 8 formatting
-- **JavaScript**: Use ES6+ with proper error handling
-- **Commits**: Use conventional commit format (`feat:`, `fix:`, `docs:`)
-
-### Testing
-- Test all API endpoints before submitting
-- Verify ML model accuracy with new data
-- Ensure frontend works with all browsers
-- Check performance impact of changes
-
-### Areas for Contribution
-- 🚀 **New routing algorithms**
-- 🧠 **Enhanced ML models**
-- 🌍 **Additional city networks**
-- 🎨 **UI/UX improvements**
-- 📈 **Performance optimizations**
-
----
-
 ## 📊 Performance Benchmarks
 
 ### Algorithm Performance (Delhi Metro - 24 stations)
@@ -558,5 +271,7 @@ We welcome contributions! Please follow these guidelines:
 - **Uptime**: 99.9% with automatic failover
 
 ---
+
+## 🚀 Build with ❤️ by Prachi Chaudhary
 
 *Built to explore scalable route optimization under dynamic congestion conditions using graph algorithms and predictive ML.*
