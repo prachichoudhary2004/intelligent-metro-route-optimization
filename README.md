@@ -1,9 +1,7 @@
 # 🚇 Metro Navigator: Intelligent Route Optimization & Congestion Prediction
 
-[![GitHub stars](https://img.shields.io/github/stars/prachichoudhary2004/intelligent-metro-route-optimization?style=for-the-badge)](https://github.com/prachichoudhary2004/intelligent-metro-route-optimization/stargazers)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/prachichoudhary2004/intelligent-metro-route-optimization/blob/main/LICENSE)
+
 [![Stack](https://img.shields.io/badge/Stack-Java_|_Python_|_Flask_|_Leaflet-blue?style=for-the-badge)](#-tech-stack)
-[![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen)](https://github.com/prachichoudhary2004/intelligent-metro-route-optimization/actions)
 
 An advanced, multi-objective urban transit routing engine that balances shortest-path algorithms with machine learning-powered real-time congestion prediction to provide dynamic, intelligent commute recommendations.
 
@@ -18,37 +16,26 @@ Modern urban transit systems face challenges that traditional routing cannot sol
 - **Real-Time Adaptation**: Routes adjust dynamically to changing conditions
 - **Explainable AI**: Users understand *why* routes are recommended
 
-### 🎯 Key Impact
+### 🎯 Project Goal
 
-**For Commuters:**
-- **12-18 minutes** saved during peak hours
-- **67% lower** commute stress through reliable predictions
-- **15% reduction** in unnecessary transfers
+Designed to explore how intelligent routing can reduce congestion-aware travel inefficiencies in dense urban transit systems.
 
-**For Transit Systems:**
-- **25% more even** passenger distribution
-- **Real-time rerouting** during disruptions
-- **Actionable analytics** for infrastructure planning
+### 🚀 Technical Implementation
 
-### 🚀 Technical Breakthrough
-
-- **64% reduction** in search space through intelligent heuristics
-- **Sub-2ms response** times for production networks
-- **85% prediction accuracy** with RandomForest models
-- **Zero-downtime** fallback mechanisms
+- **64% reduction** in search space through Haversine-guided heuristics
 
 ---
 
-## 🌟 Core Features
+## Core Features
 
-- 🛰️ **Multi-City Support**: Dynamic graph loading for Delhi (NCR), Mumbai, and Bangalore.
-- 🧠 **Explainable Route Decisions**: Transparent reasoning on why specific paths are prioritized (e.g., "Avoids predicted bottleneck at Central Secretariat").
-- 📈 **Predictive Congestion**: ML-driven load forecasting using Scikit-Learn Random Forest models.
-- 🔁 **Alternative Paths**: Yen's K-Shortest Paths algorithm implementation for high-availability alternatives.
-- ⚡ **Real-Time Benchmarking**: Live DSA complexity analysis (Nodes scanned vs Search Latency).
-- 🌡️ **Interactive Heatmaps**: Visual pulse-markers and heat circles for high-traffic zones in the dashboard.
-- ⚖️ **Tradeoff Engine**: Automated evaluation of alternative route costs and delays.
-- 🕒 **Realistic Timeline**: Station-by-station arrival scheduling and interchange badges.
+- Multi-City Support: Dynamic graph loading for Delhi (NCR), Mumbai, and Bangalore.
+- Explainable Route Decisions: Transparent reasoning on why specific paths are prioritized (e.g., "Avoids predicted bottleneck at Central Secretariat").
+- Predictive Congestion: ML-driven load forecasting using Scikit-Learn Random Forest models.
+- Alternative Paths: Yen's K-Shortest Paths algorithm implementation for high-availability alternatives.
+- Real-Time Benchmarking: Live DSA complexity analysis (Nodes scanned vs Search Latency).
+- Interactive Heatmaps: Visual pulse-markers and heat circles for high-traffic zones in dashboard.
+- Tradeoff Engine: Automated evaluation of alternative route costs and delays.
+- Realistic Timeline: Station-by-station arrival scheduling and interchange badges.
 
 ---
 
@@ -206,26 +193,9 @@ flowchart LR
 
 ---
 
-## 📸 Project Showroom
+## 📸 Dashboard Preview
 
-> [!NOTE]
-> *Add your project screenshots here to showcase the glassmorphism UI and animated maps.*
-
-| **Main Dashboard** | **Congestion Heatmap** |
-|:---:|:---:|
-| ![Main Dashboard Placeholder](https://via.placeholder.com/600x350?text=Main+Dashboard+Preview) | ![Heatmap Placeholder](https://via.placeholder.com/600x350?text=Congestion+Heatmap+Visual) |
-
-| **Algorithm Benchmarking** | **Route Timeline & Tradeoffs** |
-|:---:|:---:|
-| ![Benchmarking Placeholder](https://via.placeholder.com/600x350?text=Performance+Comparison+Drawer) | ![Timeline Placeholder](https://via.placeholder.com/600x350?text=Route+Timeline+Visualization) |
-
----
-
-## 🏗️ System Architecture & Workflow
-
-The system uses a decoupled microservices architecture, ensuring high availability and separation of concerns between the high-performance routing engine and the ML prediction service.
-
-### System Architecture
+Screenshots and demo GIFs coming soon.
 
 
 The system processes data through multiple stages to transform raw transit information into actionable routing intelligence:
@@ -273,7 +243,6 @@ flowchart TD
 3. **ML Integration**: Historical traffic data trains RandomForest models for congestion prediction
 4. **Dynamic Weighting**: ML predictions dynamically adjust edge weights in real-time
 5. **Route Computation**: User requests trigger optimized graph traversal
-6. **Response Generation**: Results are scored, ranked, and formatted with explainable insights
 
 ---
 
