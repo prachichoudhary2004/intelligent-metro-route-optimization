@@ -6,32 +6,21 @@
 [![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen)](https://github.com/prachichoudhary2004/intelligent-metro-route-optimization/actions)
 [![Coverage](https://img.shields.io/badge/Coverage-85%25-brightgreen)](https://github.com/prachichoudhary2004/intelligent-metro-route-optimization/blob/main/README.md)
 
-## 📖 Table of Contents
-
-- [💡 Why this project matters](#-why-this-project-matters)
-- [� Project Showroom](#-project-showroom-screenshots)
-- [🧮 Multi-Objective Route Scoring](#-multi-objective-route-scoring)
-- [🧠 Why A* Wins](#-why-a-wins)
-- [🌟 Core Features](#-core-features)
-- [🏗️ System Architecture](#️-system-architecture)
-- [🔄 Development Workflow](#-development-workflow)
-- [🛠️ Tech Stack](#️-tech-stack)
-- [📈 Quantified Engineering Impact](#-quantified-engineering-impact)
-- [🧩 Engineering Challenges Solved](#-engineering-challenges-solved)
-- [🚀 Scalability Considerations](#-scalability-considerations)
-- [📡 API Documentation](#-api-documentation)
-- [🚀 Getting Started](#-getting-started)
-- [🔧 Installation Guide](#-installation-guide)
-- [🐛 Troubleshooting](#-troubleshooting)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
-
 ---
 
-### � Why this project matters
-Modern urban transit systems require more than simple shortest-path routing. **Metro Navigator** explores how graph algorithms, predictive machine learning, and real-time system design can work together to improve commuter decision-making under dynamic, real-world congestion conditions.
+## 💡 Why This Project Matters
 
-**Key Innovation**: Combining traditional graph algorithms with ML-powered congestion prediction to provide intelligent route recommendations that adapt to real-time traffic conditions.
+Modern urban transit systems face complex challenges that go beyond simple shortest-path routing. As cities grow and traffic patterns become increasingly dynamic, commuters need intelligent solutions that adapt to real-world conditions.
+
+**Metro Navigator** addresses this challenge by combining advanced graph algorithms with machine learning-powered congestion prediction. The system analyzes multiple factors—including time of day, historical traffic patterns, and predicted congestion levels—to provide optimal route recommendations that evolve with changing urban dynamics.
+
+**Core Innovation**: Traditional routing algorithms find the shortest path, but our system enhances this by:
+- Predicting congestion before it occurs
+- Balancing multiple objectives (time, comfort, reliability)
+- Providing alternative routes with clear reasoning
+- Adapting to real-time traffic conditions
+
+This approach transforms static routing into a dynamic, intelligent decision support system that helps commuters make informed choices in complex urban environments.
 
 ---
 
@@ -129,15 +118,7 @@ A* with a Haversine heuristic drastically reduces the search space compared to D
 
 ---
 
-## 🚀 Scalability Considerations
-
-- **Stateless API Design**: The Java API is fully stateless, enabling effortless horizontal scaling via a load balancer.
-- **Microservice Isolation**: ML inference is isolated into an independent service, allowing for independent resource scaling.
-- **Modular Datasets**: The graph engine utilizes modular data loading, supporting rapid expansion to any global city network.
-
----
-
-## 📡 API Sample Response (v2.0)
+##  API Sample Response (v2.0)
 
 ```json
 {
@@ -151,6 +132,7 @@ A* with a Haversine heuristic drastically reduces the search space compared to D
   "decision_insights": {
     "confidence_score": 94.2,
     "reason": "Minimized interchanges while avoiding predicted bottleneck at Central Secretariat."
+  }
 }
 ```
 
@@ -347,48 +329,6 @@ cd ml-services && python app.py --debug
 
 ---
 
-## Contributing
+*Built with ❤️ by Prachi Choudhury*
 
-### Development Workflow
-
-1. **Fork Repository** on GitHub
-2. **Create Feature Branch**: `git checkout -b feature-name`
-3. **Make Changes** with proper testing
-4. **Commit Changes**: `git commit -m "feat: add feature"`
-5. **Push Branch**: `git push origin feature-name`
-6. **Create Pull Request** with detailed description
-
-### Code Standards
-
-- **Java**: Follow Google Java Style Guide
-- **Python**: Follow PEP 8 with type hints
-- **JavaScript**: Use ESLint configuration
-- **Commits**: Use conventional commit format
-
-### Testing
-
-```bash
-# Run all tests
-./run_tests.sh
-
-# Run specific tests
-cd java && java -cp ".;../lib/*" TestRunner
-cd ml-services && python -m pytest
-```
-
----
-
-## License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-**Permissions**:
-- Commercial use
-- Modification
-- Distribution
-- Private use
-- Patent use
-
-**Attribution**: Copyright (c) 2024 Metro Navigator Project
-
----
+*Built to explore scalable route optimization under dynamic congestion conditions using graph algorithms and predictive ML.*
